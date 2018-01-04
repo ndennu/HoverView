@@ -25,12 +25,20 @@ class MainViewController: UIViewController {
         return middle
     }()
     
-    lazy var viewDrag: UIView = {
+    lazy var viewDrag : UIView = {
         let viewDrag = UIView(frame: CGRect(x: 150.0, y: 150.0, width: 100.0, height: 100.0))
         viewDrag.translatesAutoresizingMaskIntoConstraints = false
         viewDrag.backgroundColor = UIColor.green
         viewDrag.layer.cornerRadius = viewDrag.frame.size.width / 2
         return viewDrag
+    }()
+    
+    lazy var trash : UIView = {
+        let trash = UIView()
+        trash.backgroundColor = UIColor.yellow
+        //let trash = UIView()
+        trash.translatesAutoresizingMaskIntoConstraints = false
+        return trash
     }()
     
     var panGesture = UIPanGestureRecognizer()
@@ -60,10 +68,22 @@ class MainViewController: UIViewController {
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    func setupMiddle() {
+    // Constraints X, Y, Width, Height for trash view
+    private func setupTrash() {
+        trash.centerXAnchor.constraint(equalTo: view.centerXAnchor) .isActive = true
+        trash.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: view.layer.frame.height/3).isActive = true
+        trash.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        trash.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    // TODO: A DELETE JUSTE POUR COMPRENDRE
+    private func setupMiddle() {
         middle.layer.frame.origin.x = (UIScreen.main.bounds.width / 2) - 1
         middle.layer.frame.origin.y = 0
-        
+    }
+    
+    func setupBubble() {
+        viewDrag.layer.frame.origin.x = 150
+        viewDrag.layer.frame.origin.y = 150
     }
     
     // Navigate on an other view
@@ -74,28 +94,47 @@ class MainViewController: UIViewController {
     // Add only one bubble
     @objc func addBubble() {
         view.addSubview(viewDrag)
+        setupBubble()
     }
     
     // a comprendre
     // Gestion du drag n drop
     @objc func draggedView(_ sender:UIPanGestureRecognizer) {
+        
+        // user touch at the beginning the bubble
+        if (sender.state == UIGestureRecognizerState.began) {
+            view.addSubview(trash)
+            setupTrash()
+        }
+        
+        // User move the bubble
         self.view.bringSubview(toFront: viewDrag)
         let translation = sender.translation(in: self.view)
         viewDrag.center = CGPoint(x: viewDrag.center.x + translation.x, y: viewDrag.center.y + translation.y)
         sender.setTranslation(CGPoint.zero, in: self.view)
         
-        
-        
+        // User unTouch the bubble
         if(sender.state == UIGestureRecognizerState.ended) {
-            print("bounds: ", UIScreen.main.bounds.width / 2, "view: ", self.view.frame.size.width/2, "\n")
-            print(viewDrag.layer.frame.origin.x, "--", viewDrag.layer.frame.origin.y)
+            print("[DEBUG] draggedView() -- bounds: ", UIScreen.main.bounds.width / 2, "view: ", self.view.frame.size.width/2)
+            print("[DEBUG] draggedView() -- ", viewDrag.layer.frame.origin.x, ", ", viewDrag.layer.frame.origin.y)
+            
+            trash.removeFromSuperview()
+            
+            if ((viewDrag.center.x >= trash.center.x-40 && viewDrag.center.x <= trash.center.x+40) && (viewDrag.center.y >= trash.center.y-40 && viewDrag.center.y <= trash.center.y+40)) {
+                print("[DEBUG] draggedView() -- viewDrag is trash")
+                viewDrag.removeFromSuperview()
+                return
+            }
+            
 //            if (viewDrag.layer.frame.origin.x >= self.view.frame.size.width/2) {
 //
 //            }
             // OR
             if (viewDrag.layer.frame.origin.x <= UIScreen.main.bounds.width / 2) {
+                print("[DEBUG] draggedView() -- Fixed on left")
                 viewDrag.center = CGPoint(x: 20, y: viewDrag.center.y + translation.y) // centre at 20
             } else {
+                print("[DEBUG] draggedView() -- Fixed on right")
                 viewDrag.layer.frame.origin.x = UIScreen.main.bounds.width - 20 // origin (border left) at 20
             }
         }
