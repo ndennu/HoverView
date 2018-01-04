@@ -137,7 +137,7 @@ class MainViewController: UIViewController {
 //
 //        }
         // OR
-        if (viewDrag.layer.frame.origin.x <= UIScreen.main.bounds.width / 2) {
+        if (viewDrag.center.x <= UIScreen.main.bounds.width / 2) {
             print("[DEBUG] draggedView() -- Fixed on left")
             viewDrag.center = CGPoint(x: 20, y: viewDrag.center.y + translation.y) // centre at 20
         } else {
