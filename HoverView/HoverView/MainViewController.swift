@@ -14,9 +14,15 @@ class MainViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Navigation", for: UIControlState())
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.white
+        button.backgroundColor = UIColor.red
         button.addTarget(self, action: #selector(touchNext), for: .touchUpInside)
         return button
+    }()
+    
+    let middle : UIView = {
+        let middle = UIView(frame: CGRect(x: 150.0, y: 150.0, width: 3.0, height: UIScreen.main.bounds.height))
+        middle.backgroundColor = UIColor.white
+        return middle
     }()
     
     lazy var viewDrag: UIView = {
@@ -34,9 +40,11 @@ class MainViewController: UIViewController {
         self.title = "Main"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBubble))
         
+        view.addSubview(middle)
         view.addSubview(button)
         
         setupButton()
+        setupMiddle()
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(draggedView(_:)))
         viewDrag.isUserInteractionEnabled = true
@@ -50,6 +58,12 @@ class MainViewController: UIViewController {
         button.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         button.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20).isActive = true
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    func setupMiddle() {
+        middle.layer.frame.origin.x = (UIScreen.main.bounds.width / 2) - 1
+        middle.layer.frame.origin.y = 0
+        
     }
     
     // Navigate on an other view
