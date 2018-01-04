@@ -81,7 +81,7 @@ class MainViewController: UIViewController {
         middle.layer.frame.origin.y = 0
     }
     
-    func setupBubble() {
+    private func setupBubble() {
         viewDrag.layer.frame.origin.x = 150
         viewDrag.layer.frame.origin.y = 150
     }
@@ -97,45 +97,73 @@ class MainViewController: UIViewController {
         setupBubble()
     }
     
+    // Add the trash view at the bottom of the screen
+    private func beginDragNDrop() {
+        view.addSubview(trash)
+        setupTrash()
+    }
+    
+    // Remove trash view to screen
+    // return true if the bubbleView is removed
+    private func removeViews() -> Bool {
+        trash.removeFromSuperview()
+        return removeBubbleView()
+    }
+    
+    // Remove bubbleView to screen
+    // return true if the view is removed
+    private func removeBubbleView() -> Bool {
+        if ((viewDrag.center.x >= trash.center.x-40 && viewDrag.center.x <= trash.center.x+40) && (viewDrag.center.y >= trash.center.y-40 && viewDrag.center.y <= trash.center.y+40)) {
+            print("[DEBUG] draggedView() -- viewDrag is trash")
+            viewDrag.removeFromSuperview()
+            return true
+        }
+        return false
+    }
+    
+    // Move bubbleView on the screen (with user's finguer)
+    private func moveBubbleView(sender: UIPanGestureRecognizer) {
+        // User move the bubble
+        self.view.bringSubview(toFront: viewDrag) // BRINGSUBVIEW ????
+        let translation = sender.translation(in: self.view)
+        viewDrag.center = CGPoint(x: viewDrag.center.x + translation.x, y: viewDrag.center.y + translation.y)
+        sender.setTranslation(CGPoint.zero, in: self.view)
+    }
+    
+    // Fixed the bubbleView at the left or right of the screen
+    private func fixedTheBubble(translation: CGPoint) {
+        
+//        if (viewDrag.layer.frame.origin.x >= self.view.frame.size.width/2) {
+//
+//        }
+        // OR
+        if (viewDrag.layer.frame.origin.x <= UIScreen.main.bounds.width / 2) {
+            print("[DEBUG] draggedView() -- Fixed on left")
+            viewDrag.center = CGPoint(x: 20, y: viewDrag.center.y + translation.y) // centre at 20
+        } else {
+            print("[DEBUG] draggedView() -- Fixed on right")
+            viewDrag.layer.frame.origin.x = UIScreen.main.bounds.width - 20 // origin (border left) at 20
+        }
+    }
+    
     // a comprendre
     // Gestion du drag n drop
     @objc func draggedView(_ sender:UIPanGestureRecognizer) {
         
         // user touch at the beginning the bubble
         if (sender.state == UIGestureRecognizerState.began) {
-            view.addSubview(trash)
-            setupTrash()
+            beginDragNDrop()
         }
         
-        // User move the bubble
-        self.view.bringSubview(toFront: viewDrag)
-        let translation = sender.translation(in: self.view)
-        viewDrag.center = CGPoint(x: viewDrag.center.x + translation.x, y: viewDrag.center.y + translation.y)
-        sender.setTranslation(CGPoint.zero, in: self.view)
+        moveBubbleView(sender: sender)
+        let translation = sender.translation(in: self.view) // PAS FOU MAIS BON
         
         // User unTouch the bubble
         if(sender.state == UIGestureRecognizerState.ended) {
             print("[DEBUG] draggedView() -- bounds: ", UIScreen.main.bounds.width / 2, "view: ", self.view.frame.size.width/2)
             print("[DEBUG] draggedView() -- ", viewDrag.layer.frame.origin.x, ", ", viewDrag.layer.frame.origin.y)
-            
-            trash.removeFromSuperview()
-            
-            if ((viewDrag.center.x >= trash.center.x-40 && viewDrag.center.x <= trash.center.x+40) && (viewDrag.center.y >= trash.center.y-40 && viewDrag.center.y <= trash.center.y+40)) {
-                print("[DEBUG] draggedView() -- viewDrag is trash")
-                viewDrag.removeFromSuperview()
-                return
-            }
-            
-//            if (viewDrag.layer.frame.origin.x >= self.view.frame.size.width/2) {
-//
-//            }
-            // OR
-            if (viewDrag.layer.frame.origin.x <= UIScreen.main.bounds.width / 2) {
-                print("[DEBUG] draggedView() -- Fixed on left")
-                viewDrag.center = CGPoint(x: 20, y: viewDrag.center.y + translation.y) // centre at 20
-            } else {
-                print("[DEBUG] draggedView() -- Fixed on right")
-                viewDrag.layer.frame.origin.x = UIScreen.main.bounds.width - 20 // origin (border left) at 20
+            if !(removeViews()) {
+                fixedTheBubble(translation: translation)
             }
         }
     }
