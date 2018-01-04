@@ -36,7 +36,6 @@ class MainViewController: UIViewController {
     lazy var trash : UIView = {
         let trash = UIView()
         trash.backgroundColor = UIColor.yellow
-        //let trash = UIView()
         trash.translatesAutoresizingMaskIntoConstraints = false
         return trash
     }()
@@ -137,12 +136,27 @@ class MainViewController: UIViewController {
 //
 //        }
         // OR
+        
+        let offset: CGFloat = 5
         if (viewDrag.center.x <= UIScreen.main.bounds.width / 2) {
             print("[DEBUG] draggedView() -- Fixed on left")
-            viewDrag.center = CGPoint(x: 20, y: viewDrag.center.y + translation.y) // centre at 20
+            viewDrag.layer.frame.origin.x = offset
+            fixedCorner(offset: offset)
         } else {
             print("[DEBUG] draggedView() -- Fixed on right")
-            viewDrag.layer.frame.origin.x = UIScreen.main.bounds.width - 20 // origin (border left) at 20
+            viewDrag.layer.frame.origin.x = UIScreen.main.bounds.width - viewDrag.layer.frame.width - offset
+            fixedCorner(offset: offset)
+        }
+    }
+    
+    // Avoid bubble to quit screen
+    private func fixedCorner(offset: CGFloat) {
+        if (viewDrag.layer.frame.origin.y <= offset) {
+            viewDrag.layer.frame.origin.y = offset
+        }
+        let pos = viewDrag.layer.frame.origin.y + viewDrag.layer.frame.height
+        if (pos >= UIScreen.main.bounds.height) {
+            viewDrag.layer.frame.origin.y = UIScreen.main.bounds.height - viewDrag.layer.frame.height - offset
         }
     }
     
