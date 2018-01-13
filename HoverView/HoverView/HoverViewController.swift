@@ -1,35 +1,20 @@
 //
-//  File.swift
+//  HoverViewController.swift
 //  HoverView
 //
-//  Created by nico on 03/01/2018.
+//  Created by nico on 13/01/2018.
 //  Copyright © 2018 ndennu. All rights reserved.
 //
 
 import UIKit
 
-class MainViewController: UIViewController {
+class HoverViewController: UIViewController {
+    var rootViewController = UIViewController()
     
-    let button : UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Navigation", for: UIControlState())
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.red
-        button.addTarget(self, action: #selector(touchNext), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var control : UIControl = {
-        let vtrl = UIControl(frame: CGRect(x: 150.0, y: 150.0, width: 100.0, height: 100.0))
-        vtrl.translatesAutoresizingMaskIntoConstraints = false
-        vtrl.backgroundColor = UIColor.brown
-        return vtrl
-    }()
-    
-    let middle : UIView = {
-        let middle = UIView(frame: CGRect(x: 150.0, y: 150.0, width: 3.0, height: UIScreen.main.bounds.height))
-        middle.backgroundColor = UIColor.white
-        return middle
+    let contentView : UIView = {
+        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        contentView.backgroundColor = UIColor.gray
+        return contentView
     }()
     
     lazy var viewDrag : UIView = {
@@ -50,27 +35,15 @@ class MainViewController: UIViewController {
     var panGesture = UIPanGestureRecognizer()
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.blue
-        self.title = "Main"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBubble))
-        
-        view.addSubview(middle)
-        view.addSubview(button)
-        
-        setupButton()
-        setupMiddle()
+        self.view.addSubview(contentView)
+        self.addChildViewController(self.rootViewController, in: self.contentView)
+        self.view.addSubview(self.viewDrag)
+        self.setupContentView()
+        self.setupBubble()
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(draggedView(_:)))
         viewDrag.isUserInteractionEnabled = true
         viewDrag.addGestureRecognizer(panGesture)
-    }
-    
-    // Constraints X, Y, Width, Height for button
-    private func setupButton() {
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        button.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        button.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     // Constraints X, Y, Width, Height for trash view
@@ -80,26 +53,17 @@ class MainViewController: UIViewController {
         trash.widthAnchor.constraint(equalToConstant: 50).isActive = true
         trash.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
-    // TODO: A DELETE JUSTE POUR COMPRENDRE
-    private func setupMiddle() {
-        middle.layer.frame.origin.x = (UIScreen.main.bounds.width / 2) - 1
-        middle.layer.frame.origin.y = 0
+    
+    private func setupContentView() {
+        self.contentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.contentView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        self.contentView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1) .isActive = true
+        self.contentView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1).isActive = true
     }
     
     private func setupBubble() {
         viewDrag.layer.frame.origin.x = 150
         viewDrag.layer.frame.origin.y = 150
-    }
-    
-    // Navigate on an other view
-    @objc func touchNext() {
-        self.navigationController?.pushViewController(MainViewController(), animated: true)
-    }
-    
-    // Add only one bubble
-    @objc func addBubble() {
-        view.addSubview(viewDrag)
-        setupBubble()
     }
     
     // Add the trash view at the bottom of the screen
@@ -138,9 +102,9 @@ class MainViewController: UIViewController {
     // Fixed the bubbleView at the left or right of the screen
     private func fixedTheBubble(translation: CGPoint) {
         
-//        if (viewDrag.layer.frame.origin.x >= self.view.frame.size.width/2) {
-//
-//        }
+        //        if (viewDrag.layer.frame.origin.x >= self.view.frame.size.width/2) {
+        //
+        //        }
         // OR
         
         let offset: CGFloat = 5
@@ -199,5 +163,3 @@ class MainViewController: UIViewController {
         }
     }
 }
-
-

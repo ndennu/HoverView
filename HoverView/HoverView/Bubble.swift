@@ -8,34 +8,33 @@
 
 import UIKit
 
-class Bubble {
+class Bubble: UIViewController {
     
-    let bubbleview: UIView
-    var view: UIViewController?
-    
+    var bubbleview = UIView()
     var panGesture = UIPanGestureRecognizer()
+    var contentView = UIViewController()
     
-    public init(x: Double, y: Double, size: Double, view: UIViewController) {
-        let bubbleview = UIView(frame: CGRect(x: x, y: y, width: size, height: size))
-        self.bubbleview = bubbleview
-        self.view = view
+    public func setupView(x: Double, y: Double, size: Double, contentView: UIViewController) {
+        let bubble = UIView(frame: CGRect(x: x, y: y, width: size, height: size))
+        self.bubbleview = bubble
+        self.contentView = contentView
         configView()
     }
     
     private func configView() {
-        bubbleview.translatesAutoresizingMaskIntoConstraints = false
-        bubbleview.backgroundColor = UIColor.gray
-        bubbleview.layer.cornerRadius = bubbleview.frame.size.width / 2
+        self.bubbleview.translatesAutoresizingMaskIntoConstraints = false
+        self.bubbleview.backgroundColor = UIColor.gray
+        self.bubbleview.layer.cornerRadius = bubbleview.frame.size.width / 2
         
-        panGesture = UIPanGestureRecognizer(target: self.view, action: #selector(self.draggableView(_:)))
-        bubbleview.isUserInteractionEnabled = true
-        bubbleview.addGestureRecognizer(panGesture)
+        self.panGesture = UIPanGestureRecognizer(target: contentView, action: #selector(draggableView(_:)))
+        self.bubbleview.isUserInteractionEnabled = true
+        self.bubbleview.addGestureRecognizer(panGesture)
         
     }
     
-    @objc func draggableView(_ sender:UIPanGestureRecognizer) {
+    @objc private func draggableView(_ sender:UIPanGestureRecognizer) {
         print("123")
-        moveBubbleView(sender: sender)
+        self.moveBubbleView(sender: sender)
     }
     
     func addGesture() {
@@ -44,12 +43,10 @@ class Bubble {
     
     private func moveBubbleView(sender: UIPanGestureRecognizer) {
         // User move the bubble
-        if let k = self.view {
-            k.view.bringSubview(toFront: bubbleview) // BRINGSUBVIEW ????
-            let translation = sender.translation(in: k.view)
-            bubbleview.center = CGPoint(x: bubbleview.center.x + translation.x, y: bubbleview.center.y + translation.y)
-            sender.setTranslation(CGPoint.zero, in: k.view)
-        }
+        contentView.view.bringSubview(toFront: bubbleview) // BRINGSUBVIEW ????
+        let translation = sender.translation(in: contentView.view)
+        self.bubbleview.center = CGPoint(x: self.bubbleview.center.x + translation.x, y: self.bubbleview.center.y + translation.y)
+        sender.setTranslation(CGPoint.zero, in: contentView.view)
 //        self.viewbringSubview(toFront: bubbleview) // BRINGSUBVIEW ????
 //        let translation = sender.translation(in: self.view)
 //        bubbleview.center = CGPoint(x: bubbleview.center.x + translation.x, y: bubbleview.center.y + translation.y)

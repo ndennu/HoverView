@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03A4C83C200A31670003BBE3 /* HoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4C83B200A31670003BBE3 /* HoverViewController.swift */; };
+		03A4C83E200A34D30003BBE3 /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4C83D200A34D30003BBE3 /* UIViewController+ChildViewController.swift */; };
 		03B76652200111850036F7A3 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B76651200111850036F7A3 /* Bubble.swift */; };
 		03DCA84C1FFD421D005F8491 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DCA84B1FFD421D005F8491 /* AppDelegate.swift */; };
 		03DCA8531FFD421D005F8491 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03DCA8521FFD421D005F8491 /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03A4C83B200A31670003BBE3 /* HoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverViewController.swift; sourceTree = "<group>"; };
+		03A4C83D200A34D30003BBE3 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
 		03B76651200111850036F7A3 /* Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
 		03DCA8481FFD421D005F8491 /* HoverView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoverView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03DCA84B1FFD421D005F8491 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 				03DCA8571FFD421D005F8491 /* Info.plist */,
 				03DCA8791FFD438F005F8491 /* MainViewController.swift */,
 				03B76651200111850036F7A3 /* Bubble.swift */,
+				03A4C83B200A31670003BBE3 /* HoverViewController.swift */,
+				03A4C83D200A34D30003BBE3 /* UIViewController+ChildViewController.swift */,
 			);
 			path = HoverView;
 			sourceTree = "<group>";
@@ -259,8 +265,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				03DCA84C1FFD421D005F8491 /* AppDelegate.swift in Sources */,
+				03A4C83E200A34D30003BBE3 /* UIViewController+ChildViewController.swift in Sources */,
 				03B76652200111850036F7A3 /* Bubble.swift in Sources */,
 				03DCA87A1FFD438F005F8491 /* MainViewController.swift in Sources */,
+				03A4C83C200A31670003BBE3 /* HoverViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
