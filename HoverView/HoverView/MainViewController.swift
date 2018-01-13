@@ -10,6 +10,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    var bubbleView: Bubble?
+    
     let button : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Navigation", for: UIControlState())
@@ -17,6 +19,13 @@ class MainViewController: UIViewController {
         button.backgroundColor = UIColor.red
         button.addTarget(self, action: #selector(touchNext), for: .touchUpInside)
         return button
+    }()
+    
+    lazy var control : UIControl = {
+        let vtrl = UIControl(frame: CGRect(x: 150.0, y: 150.0, width: 100.0, height: 100.0))
+        vtrl.translatesAutoresizingMaskIntoConstraints = false
+        vtrl.backgroundColor = UIColor.brown
+        return vtrl
     }()
     
     let middle : UIView = {
@@ -42,10 +51,14 @@ class MainViewController: UIViewController {
     
     var panGesture = UIPanGestureRecognizer()
     
+    var panControl = UIPanGestureRecognizer()
+    
     override func viewDidLoad() {
         view.backgroundColor = UIColor.blue
         self.title = "Main"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBubble))
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAzertyuiop))
         
         view.addSubview(middle)
         view.addSubview(button)
@@ -53,10 +66,15 @@ class MainViewController: UIViewController {
         setupButton()
         setupMiddle()
         
-        panGesture = UIPanGestureRecognizer(target: self, action: #selector(draggedView(_:)))
-        viewDrag.isUserInteractionEnabled = true
-        viewDrag.addGestureRecognizer(panGesture)
+//        panGesture = UIPanGestureRecognizer(target: self, action: #selector(draggedView(_:)))
+//        viewDrag.isUserInteractionEnabled = true
+//        viewDrag.addGestureRecognizer(panGesture)
+    }
+    
+    @objc func addAzertyuiop() {
         
+        let b = Bubble(x: 120, y: 120, size: 120, view: self)
+        view.addSubview(b.bubbleview)
     }
     
     // Constraints X, Y, Width, Height for button
@@ -151,36 +169,47 @@ class MainViewController: UIViewController {
     
     // Avoid bubble to quit screen
     private func fixedCorner(offset: CGFloat) {
-        if (viewDrag.layer.frame.origin.y <= offset) {
+        let originY = viewDrag.layer.frame.origin.y
+        let posBottom = viewDrag.layer.frame.origin.y + viewDrag.layer.frame.height
+        let screenSize = UIScreen.main.bounds.height
+        
+        if (originY <= offset) {
             viewDrag.layer.frame.origin.y = offset
         }
-        let pos = viewDrag.layer.frame.origin.y + viewDrag.layer.frame.height
-        if (pos >= UIScreen.main.bounds.height) {
-            viewDrag.layer.frame.origin.y = UIScreen.main.bounds.height - viewDrag.layer.frame.height - offset
+        
+        if (posBottom >= screenSize) {
+            viewDrag.layer.frame.origin.y = screenSize - viewDrag.layer.frame.height - offset
+        }
+        
+        if let heightNavBar = self.navigationController?.navigationBar.frame.size.height,
+            let originYNavBar = self.navigationController?.navigationBar.frame.origin.y {
+            if (originY <= heightNavBar) {
+                viewDrag.layer.frame.origin.y = heightNavBar + originYNavBar + offset
+            }
         }
     }
     
     // a comprendre
     // Gestion du drag n drop
-    @objc func draggedView(_ sender:UIPanGestureRecognizer) {
-        
-        // user touch at the beginning the bubble
-        if (sender.state == UIGestureRecognizerState.began) {
-            beginDragNDrop()
-        }
-        
-        moveBubbleView(sender: sender)
-        let translation = sender.translation(in: self.view) // PAS FOU MAIS BON
-        
-        // User unTouch the bubble
-        if(sender.state == UIGestureRecognizerState.ended) {
-            print("[DEBUG] draggedView() -- bounds: ", UIScreen.main.bounds.width / 2, "view: ", self.view.frame.size.width/2)
-            print("[DEBUG] draggedView() -- ", viewDrag.layer.frame.origin.x, ", ", viewDrag.layer.frame.origin.y)
-            if !(removeViews()) {
-                fixedTheBubble(translation: translation)
-            }
-        }
-    }
+//    @objc func draggedView(_ sender:UIPanGestureRecognizer) {
+//        
+//        // user touch at the beginning the bubble
+//        if (sender.state == UIGestureRecognizerState.began) {
+//            beginDragNDrop()
+//        }
+//        
+//        moveBubbleView(sender: sender)
+//        let translation = sender.translation(in: self.view) // PAS FOU MAIS BON
+//        
+//        // User unTouch the bubble
+//        if(sender.state == UIGestureRecognizerState.ended) {
+//            print("[DEBUG] draggedView() -- bounds: ", UIScreen.main.bounds.width / 2, "view: ", self.view.frame.size.width/2)
+//            print("[DEBUG] draggedView() -- ", viewDrag.layer.frame.origin.x, ", ", viewDrag.layer.frame.origin.y)
+//            if !(removeViews()) {
+//                fixedTheBubble(translation: translation)
+//            }
+//        }
+//    }
 }
 
 
