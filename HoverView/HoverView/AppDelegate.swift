@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let root = UINavigationController(rootViewController: MainViewController())
         
         let autre = HoverViewController()
+        autre.rootViewController = root
         
         window.rootViewController = autre
         window.makeKeyAndVisible()

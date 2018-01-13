@@ -12,7 +12,7 @@ class HoverViewController: UIViewController {
     var rootViewController = UIViewController()
     
     let contentView : UIView = {
-        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         contentView.backgroundColor = UIColor.gray
         return contentView
     }()
@@ -20,7 +20,7 @@ class HoverViewController: UIViewController {
     lazy var viewDrag : UIView = {
         let viewDrag = UIView(frame: CGRect(x: 150.0, y: 150.0, width: 100.0, height: 100.0))
         viewDrag.translatesAutoresizingMaskIntoConstraints = false
-        viewDrag.backgroundColor = UIColor.green
+        viewDrag.backgroundColor = UIColor.red
         viewDrag.layer.cornerRadius = viewDrag.frame.size.width / 2
         return viewDrag
     }()
@@ -70,6 +70,12 @@ class HoverViewController: UIViewController {
     private func beginDragNDrop() {
         view.addSubview(trash)
         setupTrash()
+    }
+    
+    // Add only one bubble
+    @objc public func addBubble() {
+        view.addSubview(viewDrag)
+        setupBubble()
     }
     
     // Remove trash view to screen
