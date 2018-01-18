@@ -8,7 +8,9 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+public class MainViewController: UIViewController {
+    
+    var n : HoverViewController?
     
     let button : UIButton = {
         let button = UIButton(type: .system)
@@ -49,7 +51,7 @@ class MainViewController: UIViewController {
     
     var panGesture = UIPanGestureRecognizer()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         view.backgroundColor = UIColor.blue
         self.title = "Main"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBubble))
@@ -64,6 +66,7 @@ class MainViewController: UIViewController {
         viewDrag.isUserInteractionEnabled = true
         viewDrag.addGestureRecognizer(panGesture)
     }
+    
     
     // Constraints X, Y, Width, Height for button
     private func setupButton() {
@@ -92,14 +95,17 @@ class MainViewController: UIViewController {
     }
     
     // Navigate on an other view
-    @objc func touchNext() {
-        self.navigationController?.pushViewController(MainViewController(), animated: true)
+    @objc private func touchNext() {
+        //self.navigationController?.pushViewController(MainViewController(), animated: true)
     }
     
     // Add only one bubble
     @objc func addBubble() {
-        view.addSubview(viewDrag)
-        setupBubble()
+        if let v = n {
+            v.addBubble()
+        }
+        //view.addSubview(viewDrag)
+        //setupBubble()
     }
     
     // Add the trash view at the bottom of the screen
@@ -200,4 +206,9 @@ class MainViewController: UIViewController {
     }
 }
 
-
+extension MainViewController: HoverViewControllerDelegate {
+    public func hoverViewController(_ hoverViewController: HoverViewController) {
+        self.n = hoverViewController
+    }
+    
+}

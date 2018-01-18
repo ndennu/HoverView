@@ -17,10 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let window = UIWindow(frame: UIScreen.main.bounds)
         
-        let root = UINavigationController(rootViewController: MainViewController())
+        let main = MainViewController()
+        
+        let root = UINavigationController(rootViewController: main)
         
         let autre = HoverViewController()
         autre.rootViewController = root
+        
+        autre.delegate = main
         
         window.rootViewController = autre
         window.makeKeyAndVisible()

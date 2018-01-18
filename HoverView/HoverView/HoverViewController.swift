@@ -8,7 +8,15 @@
 
 import UIKit
 
-class HoverViewController: UIViewController {
+public protocol HoverViewControllerDelegate: class {
+    
+    func hoverViewController(_ hoverViewController: HoverViewController)
+}
+
+public class HoverViewController: UIViewController {
+    
+    public weak var delegate: HoverViewControllerDelegate?
+    
     var rootViewController = UIViewController()
     
     let contentView : UIView = {
@@ -34,12 +42,11 @@ class HoverViewController: UIViewController {
     
     var panGesture = UIPanGestureRecognizer()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         self.view.addSubview(contentView)
         self.addChildViewController(self.rootViewController, in: self.contentView)
-        self.view.addSubview(self.viewDrag)
         self.setupContentView()
-        self.setupBubble()
+        self.delegate?.hoverViewController(self)
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(draggedView(_:)))
         viewDrag.isUserInteractionEnabled = true
@@ -73,7 +80,7 @@ class HoverViewController: UIViewController {
     }
     
     // Add only one bubble
-    @objc public func addBubble() {
+    public func addBubble() {
         view.addSubview(viewDrag)
         setupBubble()
     }
