@@ -17,87 +17,102 @@ public class HoverViewController: UIViewController {
     
     public weak var delegate: HoverViewControllerDelegate?
     
-    var rootViewController = UIViewController()
+    private var hvRootViewController = UIViewController()
     
-    let contentView : UIView = {
-        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        contentView.backgroundColor = UIColor.gray
-        return contentView
+    private let hvContentView : UIView = {
+        let hvContentView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        hvContentView.backgroundColor = UIColor.gray
+        return hvContentView
     }()
     
-    lazy var viewDrag : UIView = {
-        let viewDrag = UIView(frame: CGRect(x: 150.0, y: 150.0, width: 100.0, height: 100.0))
-        viewDrag.translatesAutoresizingMaskIntoConstraints = false
-        viewDrag.backgroundColor = UIColor.red
-        viewDrag.layer.cornerRadius = viewDrag.frame.size.width / 2
-        return viewDrag
+    private lazy var hvBubbleView : UIView = {
+        let hvBubbleView = UIView()
+        hvBubbleView.translatesAutoresizingMaskIntoConstraints = false
+        hvBubbleView.backgroundColor = UIColor.red
+        hvBubbleView.layer.cornerRadius = hvBubbleView.frame.size.width / 2
+        return hvBubbleView
     }()
     
-    lazy var trash : UIView = {
-        let trash = UIView()
-        trash.backgroundColor = UIColor.yellow
-        trash.translatesAutoresizingMaskIntoConstraints = false
-        return trash
+    private lazy var hvTrashView : UIView = {
+        let hvTrashView = UIView()
+        hvTrashView.translatesAutoresizingMaskIntoConstraints = false
+        return hvTrashView
     }()
     
-    var panGesture = UIPanGestureRecognizer()
+    private var panGesture = UIPanGestureRecognizer()
     
     public override func viewDidLoad() {
-        self.view.addSubview(contentView)
-        self.addChildViewController(self.rootViewController, in: self.contentView)
+        self.view.addSubview(self.hvContentView)
+        self.addChildViewController(self.hvRootViewController, in: self.hvContentView)
         self.setupContentView()
         self.delegate?.hoverViewController(self)
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(draggedView(_:)))
-        viewDrag.isUserInteractionEnabled = true
-        viewDrag.addGestureRecognizer(panGesture)
+        self.hvBubbleView.isUserInteractionEnabled = true
+        self.hvBubbleView.addGestureRecognizer(panGesture)
     }
     
     // Constraints X, Y, Width, Height for trash view
     private func setupTrash() {
-        trash.centerXAnchor.constraint(equalTo: view.centerXAnchor) .isActive = true
-        trash.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: view.layer.frame.height/3).isActive = true
-        trash.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        trash.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.hvTrashView.centerXAnchor.constraint(equalTo: view.centerXAnchor) .isActive = true
+        self.hvTrashView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: view.layer.frame.height/3).isActive = true
+        self.hvTrashView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        self.hvTrashView.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     private func setupContentView() {
-        self.contentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.contentView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        self.contentView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1) .isActive = true
-        self.contentView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1).isActive = true
+        self.hvContentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.hvContentView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        self.hvContentView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1) .isActive = true
+        self.hvContentView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1).isActive = true
     }
     
     private func setupBubble() {
-        viewDrag.layer.frame.origin.x = 150
-        viewDrag.layer.frame.origin.y = 150
+        self.hvBubbleView.layer.frame.origin.x = 150
+        self.hvBubbleView.layer.frame.origin.y = 150
+    }
+    
+    public func setupWithImage(rootViewController: UIViewController, size: CGFloat, imgBubbleName: String, imgTrashName: String) {
+        self.hvRootViewController = rootViewController
+        self.hvBubbleView.layer.frame.size.width = size
+        self.hvBubbleView.layer.frame.size.height = size
+        self.hvBubbleView.layer.cornerRadius = hvBubbleView.frame.size.width / 2
+        let imageViewBubble = UIImageView(frame: CGRect(x: 0, y: 0, width: size, height: size))
+        imageViewBubble.image = UIImage(named: imgBubbleName)
+        imageViewBubble.contentMode = UIViewContentMode.scaleAspectFit
+        self.hvBubbleView.addSubview(imageViewBubble)
+        
+        let imageViewTrash = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        imageViewTrash.image = UIImage(named: imgTrashName)
+        imageViewTrash.contentMode = UIViewContentMode.scaleAspectFit
+        self.hvTrashView.addSubview(imageViewTrash)
     }
     
     // Add the trash view at the bottom of the screen
     private func beginDragNDrop() {
-        view.addSubview(trash)
+        view.addSubview(self.hvTrashView)
         setupTrash()
     }
     
     // Add only one bubble
     public func addBubble() {
-        view.addSubview(viewDrag)
+        view.addSubview(self.hvBubbleView)
         setupBubble()
     }
     
     // Remove trash view to screen
     // return true if the bubbleView is removed
     private func removeViews() -> Bool {
-        trash.removeFromSuperview()
+        self.hvTrashView.removeFromSuperview()
         return removeBubbleView()
     }
     
     // Remove bubbleView to screen
     // return true if the view is removed
     private func removeBubbleView() -> Bool {
-        if ((viewDrag.center.x >= trash.center.x-40 && viewDrag.center.x <= trash.center.x+40) && (viewDrag.center.y >= trash.center.y-40 && viewDrag.center.y <= trash.center.y+40)) {
+        if ((self.hvBubbleView.center.x >= self.hvTrashView.center.x-40 && self.hvBubbleView.center.x <= self.hvTrashView.center.x+40) && (self.hvBubbleView.center.y >= self.hvTrashView.center.y-40 && self.hvBubbleView.center.y <= self.hvTrashView.center.y+40)) {
             print("[DEBUG] draggedView() -- viewDrag is trash")
-            viewDrag.removeFromSuperview()
+            self.hvBubbleView.removeFromSuperview()
             return true
         }
         return false
@@ -106,55 +121,48 @@ public class HoverViewController: UIViewController {
     // Move bubbleView on the screen (with user's finguer)
     private func moveBubbleView(sender: UIPanGestureRecognizer) {
         // User move the bubble
-        self.view.bringSubview(toFront: viewDrag) // BRINGSUBVIEW ????
+        self.view.bringSubview(toFront: self.hvBubbleView) // BRINGSUBVIEW ????
         let translation = sender.translation(in: self.view)
-        viewDrag.center = CGPoint(x: viewDrag.center.x + translation.x, y: viewDrag.center.y + translation.y)
+        self.hvBubbleView.center = CGPoint(x: self.hvBubbleView.center.x + translation.x, y: self.hvBubbleView.center.y + translation.y)
         sender.setTranslation(CGPoint.zero, in: self.view)
     }
     
     // Fixed the bubbleView at the left or right of the screen
     private func fixedTheBubble(translation: CGPoint) {
-        
-        //        if (viewDrag.layer.frame.origin.x >= self.view.frame.size.width/2) {
-        //
-        //        }
-        // OR
-        
         let offset: CGFloat = 5
-        if (viewDrag.center.x <= UIScreen.main.bounds.width / 2) {
+        if (self.hvBubbleView.center.x <= UIScreen.main.bounds.width / 2) {
             print("[DEBUG] draggedView() -- Fixed on left")
-            viewDrag.layer.frame.origin.x = offset
+            self.hvBubbleView.layer.frame.origin.x = offset
             fixedCorner(offset: offset)
         } else {
             print("[DEBUG] draggedView() -- Fixed on right")
-            viewDrag.layer.frame.origin.x = UIScreen.main.bounds.width - viewDrag.layer.frame.width - offset
+            self.hvBubbleView.layer.frame.origin.x = UIScreen.main.bounds.width - self.hvBubbleView.layer.frame.width - offset
             fixedCorner(offset: offset)
         }
     }
     
     // Avoid bubble to quit screen
     private func fixedCorner(offset: CGFloat) {
-        let originY = viewDrag.layer.frame.origin.y
-        let posBottom = viewDrag.layer.frame.origin.y + viewDrag.layer.frame.height
+        let originY = self.hvBubbleView.layer.frame.origin.y
+        let posBottom = self.hvBubbleView.layer.frame.origin.y + self.hvBubbleView.layer.frame.height
         let screenSize = UIScreen.main.bounds.height
         
         if (originY <= offset) {
-            viewDrag.layer.frame.origin.y = offset
+            self.hvBubbleView.layer.frame.origin.y = offset
         }
         
         if (posBottom >= screenSize) {
-            viewDrag.layer.frame.origin.y = screenSize - viewDrag.layer.frame.height - offset
+            self.hvBubbleView.layer.frame.origin.y = screenSize - self.hvBubbleView.layer.frame.height - offset
         }
         
         if let heightNavBar = self.navigationController?.navigationBar.frame.size.height,
             let originYNavBar = self.navigationController?.navigationBar.frame.origin.y {
             if (originY <= heightNavBar) {
-                viewDrag.layer.frame.origin.y = heightNavBar + originYNavBar + offset
+                self.hvBubbleView.layer.frame.origin.y = heightNavBar + originYNavBar + offset
             }
         }
     }
     
-    // a comprendre
     // Gestion du drag n drop
     @objc func draggedView(_ sender:UIPanGestureRecognizer) {
         
@@ -169,7 +177,7 @@ public class HoverViewController: UIViewController {
         // User unTouch the bubble
         if(sender.state == UIGestureRecognizerState.ended) {
             print("[DEBUG] draggedView() -- bounds: ", UIScreen.main.bounds.width / 2, "view: ", self.view.frame.size.width/2)
-            print("[DEBUG] draggedView() -- ", viewDrag.layer.frame.origin.x, ", ", viewDrag.layer.frame.origin.y)
+            print("[DEBUG] draggedView() -- ", self.hvBubbleView.layer.frame.origin.x, ", ", self.hvBubbleView.layer.frame.origin.y)
             if !(removeViews()) {
                 fixedTheBubble(translation: translation)
             }

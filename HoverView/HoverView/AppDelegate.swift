@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let root = UINavigationController(rootViewController: main)
         
         let autre = HoverViewController()
-        autre.rootViewController = root
+        autre.setupWithImage(rootViewController: root, size: 50, imgBubbleName: "pokeball.png", imgTrashName: "cross.png")
         
         autre.delegate = main
         
