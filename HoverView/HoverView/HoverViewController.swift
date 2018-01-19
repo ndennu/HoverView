@@ -137,10 +137,13 @@ public class HoverViewController: UIViewController {
     // REMOVE THE BUBBLEVIEW TO THE SCREEN
     // RETURN TRUE IF THE BUBBLEVIEW IS REMOVED
     private func removeBubbleView() -> Bool {
+        let bubbleCenterX = self.hvBubbleView.center.x
+        let bubbleCenterY = self.hvBubbleView.center.y
         
-        //TODO: CHANGE CONDITION
+        let trashCenterX = self.hvTrashView.frame.origin.x
+        let trashCenterY = self.hvTrashView.frame.origin.y
         
-        if ((self.hvBubbleView.center.x >= self.hvTrashView.center.x-40 && self.hvBubbleView.center.x <= self.hvTrashView.center.x+40) && (self.hvBubbleView.center.y >= self.hvTrashView.center.y-40 && self.hvBubbleView.center.y <= self.hvTrashView.center.y+40)) {
+        if ((bubbleCenterX >= trashCenterX && bubbleCenterX <= trashCenterX + self.hvTrashView.frame.size.width) && (bubbleCenterY >= trashCenterY - 40 && bubbleCenterY <= trashCenterY + self.hvTrashView.frame.size.height)) {
             self.hvBubbleView.removeFromSuperview()
             return true
         }
