@@ -16,7 +16,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = UINavigationController(rootViewController: MainViewController())
+        
+        let main = MainViewController()
+        
+        let root = UINavigationController(rootViewController: main)
+        
+        let autre = HoverViewController()
+        autre.setupWithImage(rootViewController: root, size: 50, imgBubbleName: "pokeball.png", imgTrashName: "cross.png")
+        
+        autre.delegate = main
+        
+        window.rootViewController = autre
         window.makeKeyAndVisible()
         self.window = window
         return true
