@@ -1,15 +1,14 @@
 //
 //  HoverViewController.swift
-//  HoverView
+//  HoverViewFramework
 //
-//  Created by nico on 13/01/2018.
-//  Copyright © 2018 ndennu. All rights reserved.
+//  Created by Jeyaksan RAJARATNAM on 29/01/2018.
+//  Copyright © 2018 ajn. All rights reserved.
 //
 
 import UIKit
 
 public protocol HoverViewControllerDelegate: class {
-    
     func hoverViewController(_ hoverViewController: HoverViewController)
 }
 
@@ -41,14 +40,16 @@ public class HoverViewController: UIViewController {
     
     private var panGesture = UIPanGestureRecognizer()
     
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
         self.view.addSubview(self.hvContentView)
         self.addChildViewController(self.hvRootViewController, in: self.hvContentView)
         self.setupContentView()
         self.delegate?.hoverViewController(self)
         setPanGesture()
     }
-    
     
     /////////////////////////////////////////////////////////////////////////
     //                                                                     //
@@ -204,3 +205,4 @@ public class HoverViewController: UIViewController {
         }
     }
 }
+
