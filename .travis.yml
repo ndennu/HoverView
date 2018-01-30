@@ -11,7 +11,7 @@ notifications:
   email: false
 before_install:
   - gem install bundler
-#  - brew update
-#  - bundle install && brew bundle
+  - brew update
+  - bundle install && brew bundle
 #install: bundle exec pod install --repo-update --silent
 script: bundle exec fastlane hoverview_main
