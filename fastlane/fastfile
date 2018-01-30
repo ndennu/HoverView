@@ -1,0 +1,22 @@
+lane :hoverview_main do
+    hoverview_test
+    if git_branch() == "develop"
+        print "DEVELOP BRANCH\n"
+    elsif git_branch() == "master"
+        print "MASTER BRANCH\n"
+        hoverview_deploy
+    end
+end
+
+lane :hoverview_test do 
+    scan(
+        code_coverage: true,
+        open_report: true
+    )
+end
+
+lane :hoverview_deploy do
+    pod_lib_lint
+    pod_push
+    print "[!!] deployed\n"
+end

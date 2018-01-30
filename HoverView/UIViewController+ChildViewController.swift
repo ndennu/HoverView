@@ -1,9 +1,9 @@
 //
 //  UIViewController+ChildViewController.swift
-//  HoverView
+//  HoverViewFramework
 //
-//  Created by nico on 13/01/2018.
-//  Copyright © 2018 ndennu. All rights reserved.
+//  Created by Jeyaksan RAJARATNAM on 29/01/2018.
+//  Copyright © 2018 ajn. All rights reserved.
 //
 
 import UIKit
@@ -24,5 +24,5 @@ extension UIViewController {
         childController.removeFromParentViewController()
         childController.view.removeFromSuperview()
     }
-    
 }
+
