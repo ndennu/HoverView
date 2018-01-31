@@ -9,5 +9,5 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'HoverView/HoverView/*.swift'
+  s.source_files = 'HoverView/*.swift'
 end
