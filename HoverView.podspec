@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.authors = { 'groupe1' => 'rjeyaksan@outlook.fr' }
   s.source = { :git => 'https://github.com/ndennu/HoverView.git', :tag => s.version }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'HoverView/*.swift'
 end
