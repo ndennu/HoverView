@@ -1,0 +1,61 @@
+lane :hoverview_main do
+    increment_build_number
+    hoverview_test
+    xcov
+    if git_branch() == "develop"
+        print "DEVELOP BRANCH\n"
+        slack(
+            slack_url: "https://hooks.slack.com/services/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",
+            message: "HoveView framework has been successfully built on develop branch!",
+            channel: "#iosfastlane",  # Optional, by default will post to the default channel configured for the POST URL.
+            success: true,        # Optional, defaults to true.
+            payload: {  # Optional, lets you specify any number of your own Slack attachments.
+                "Build Date" => Time.new.to_s,
+                "Built by" => "Travis",
+            }
+        )
+    elsif git_branch() == "master"
+        print "MASTER BRANCH\n"
+        #version = version_get_podspec(path: "HoverView.podspec")
+
+        slack(
+            slack_url: "https://hooks.slack.com/services/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",
+            message: "HoveView framework release version : #{version}, has been successfully deployed!",
+            channel: "#iosfastlane",
+            success: true,        # Optional, defaults to true.
+            payload: {
+                "Build Date" => Time.new.to_s,
+                "Built by" => "Travis",
+            }
+        )
+        increment_version_number
+        hoverview_deploy
+    end
+end
+
+lane :hoverview_test do 
+    scan(
+        code_coverage: true,
+        open_report: true
+    )
+end
+
+lane :hoverview_deploy do
+    pod_lib_lint
+    pod_push
+    print "[!!] deployed\n"
+end
+
+error do |lane, exception|
+    print "ERROR --> "
+    slack(
+        slack_url: "https://hooks.slack.com/services/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",
+        message: "Lane failed, Details --> " + exception.message,
+        channel: "#iosfastlane",  # Optional, by default will post to the default channel configured for the POST URL.
+        success: false,        # Optional, defaults to true.
+        payload: {  # Optional, lets you specify any number of your own Slack attachments.
+            "Build Date" => Time.new.to_s,
+            "Built by" => "Travis",
+        }
+    )
+end
