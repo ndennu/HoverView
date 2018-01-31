@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C38FC28201FC7E9003C4F4F /* HoverView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C38FC1E201FC7E9003C4F4F /* HoverView.framework */; };
-		2C38FC2D201FC7E9003C4F4F /* HoverViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C38FC2C201FC7E9003C4F4F /* HoverViewTests.swift */; };
 		2C38FC2F201FC7E9003C4F4F /* HoverView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C38FC21201FC7E9003C4F4F /* HoverView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2C38FC39201FC9B1003C4F4F /* HoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C38FC38201FC9B1003C4F4F /* HoverViewController.swift */; };
 		2C38FC3B201FC9C4003C4F4F /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C38FC3A201FC9C4003C4F4F /* UIViewController+ChildViewController.swift */; };
@@ -30,7 +29,6 @@
 		2C38FC21201FC7E9003C4F4F /* HoverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HoverView.h; sourceTree = "<group>"; };
 		2C38FC22201FC7E9003C4F4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C38FC27201FC7E9003C4F4F /* HoverViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoverViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2C38FC2C201FC7E9003C4F4F /* HoverViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverViewTests.swift; sourceTree = "<group>"; };
 		2C38FC2E201FC7E9003C4F4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C38FC38201FC9B1003C4F4F /* HoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverViewController.swift; sourceTree = "<group>"; };
 		2C38FC3A201FC9C4003C4F4F /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
@@ -90,7 +88,6 @@
 		2C38FC2B201FC7E9003C4F4F /* HoverViewTests */ = {
 			isa = PBXGroup;
 			children = (
-				2C38FC2C201FC7E9003C4F4F /* HoverViewTests.swift */,
 				2C38FC2E201FC7E9003C4F4F /* Info.plist */,
 				2C38FC6E201FD0DD003C4F4F /* HoverViewControllerTest.swift */,
 			);
@@ -225,7 +222,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C38FC2D201FC7E9003C4F4F /* HoverViewTests.swift in Sources */,
 				2C38FC6F201FD0DD003C4F4F /* HoverViewControllerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,7 +268,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -332,7 +328,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -363,7 +359,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 224JCRSJZR;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 22;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = HoverView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -386,7 +382,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 224JCRSJZR;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 22;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = HoverView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
