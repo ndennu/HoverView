@@ -30,5 +30,4 @@ class HoverViewControllerTest: XCTestCase {
         self.viewController.addBubble()
         XCTAssertNoThrow("No exception")
     }
-    
 }
