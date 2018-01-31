@@ -6,7 +6,7 @@ lane :hoverview_main do
         print "DEVELOP BRANCH\n"
         slack(
             slack_url: "https://hooks.slack.com/services/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",
-            message: "HoveView framework has been successfully built on develop branch!",
+            message: "HoverView framework has been successfully built on develop branch!",
             channel: "#iosfastlane",  # Optional, by default will post to the default channel configured for the POST URL.
             success: true,        # Optional, defaults to true.
             payload: {  # Optional, lets you specify any number of your own Slack attachments.
@@ -15,12 +15,12 @@ lane :hoverview_main do
             }
         )
     elsif git_branch() == "master"
-        print "MASTER BRANCH\n"
         version = version_get_podspec(path: "HoverView.podspec")
-
+        increment_version_number
+        hoverview_deploy
         slack(
             slack_url: "https://hooks.slack.com/services/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",
-            message: "HoveView framework release version : #{version}, has been successfully deployed!",
+            message: "HoverView framework release version : #{version}, has been successfully deployed!",
             channel: "#iosfastlane",
             success: true,        # Optional, defaults to true.
             payload: {
@@ -28,8 +28,6 @@ lane :hoverview_main do
                 "Built by" => "Travis",
             }
         )
-        increment_version_number
-        hoverview_deploy
     end
 end
 
