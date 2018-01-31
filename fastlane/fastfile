@@ -16,7 +16,7 @@ lane :hoverview_main do
         )
     elsif git_branch() == "master"
         print "MASTER BRANCH\n"
-        #version = version_get_podspec(path: "HoverView.podspec")
+        version = version_get_podspec(path: "HoverView.podspec")
 
         slack(
             slack_url: "https://hooks.slack.com/services/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",
