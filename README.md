@@ -34,7 +34,7 @@ hoverViewController.setupWithImage(rootViewController: rootViewController, size:
 hoverViewController.delegate = mainViewController
 ```
 
-To add the bubble using a button in navigation bar, you need to add these line of code in your view controller 
+To add the bubble you need to call hvc.addBubble() in your view controller 
 
 ```swift 
 class ViewController: UIViewController {
