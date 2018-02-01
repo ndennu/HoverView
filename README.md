@@ -1,6 +1,8 @@
 # HoverView Framework
 New revolutionnary bubble component
 
+[![CocoaPods](https://img.shields.io/cocoapods/p/HoverView.svg)](https://github.com/ndennu/HoverView) [![Build Status](https://travis-ci.org/ndennu/HoverView.svg?branch=master)](https://travis-ci.org/ndennu/HoverView) [![pod version](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/ndennu/hoverview/tree/master)](http://clayallsopp.github.io/readme-score?url=https://github.com/ndennu/hoverview/tree/master) [![CocoaPods](https://img.shields.io/cocoapods/dt/HoverView.svg)](https://github.com/ndennu/HoverView)
+
 ## Prerequisites
 
 - XCode 9 and Swift 4
@@ -23,42 +25,31 @@ First, you must import the framework with this line :
 import HoverViewFramework
 ```
 
-Then, you can use HoverViewController like this exemple of usage in `AppDelegate.swift` file.
+Then, you can use HoverViewController like this exemple of usage.
 ```swift
-let window = UIWindow(frame: UIScreen.main.bounds)
 let mainViewController = ViewController()
 let rootViewController = UINavigationController(rootViewController: mainViewController)
 let hoverViewController = HoverViewController()
 hoverViewController.setupWithImage(rootViewController: rootViewController, size: 50, imgBubbleName: "bubbleImage.png", imgTrashName: "cross.png")
 hoverViewController.delegate = mainViewController
-window.rootViewController = hoverViewController
-window.makeKeyAndVisible()
-self.window = window
 ```
 
-Then to add the bubble you need to add these line of code in your view controller 
+To add the bubble using a button in navigation bar, you need to add these line of code in your view controller 
 
 ```swift 
 class ViewController: UIViewController {
-    ...
-    var hoverViewController: HoverViewController?
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBubble))
-    }
-    ...
+    // ... some code
     // Add only one bubble
-    @objc func addBubble() {
+    func addBubble() {
+        // We need to call hvc.addBubble() to display a bubble
+        // You can call it in button action code
         if let hvc = hoverViewController {
             hvc.addBubble()
         }
-        //view.addSubview(viewDrag)
-        //setupBubble()
     }
-    ...
+    // ... some code
 }
-// Delegate to get the HoverViewController
+// Delegate to get the HoverViewController and other usefull event
 extension ViewController: HoverViewControllerDelegate {
     public func hoverViewController(_ hoverViewController: HoverViewController) {
         self.hoverViewController = hoverViewController
