@@ -15,12 +15,22 @@ lane :hoverview_main do
             }
         )
     elsif git_branch() == "master"
-        version = version_get_podspec(path: "HoverViewFramework.podspec")
-        increment_version_number
+        xcodeprojver = increment_version_number
+        version_bump_podspec(
+            path: "HoverViewFramework.podspec",
+            version_number: xcodeprojver
+        )
         hoverview_deploy
+        git_commit(
+            path: ["HoverView.xcodeproj/project.pbxproj",
+                    "HoverView/Info.plist",
+                    "HoverViewTests/Info.plist",
+                    "HoverViewFramework.podspec"], 
+            message: "Changed framework number to " + xcodeprojver
+        )
         slack(
             slack_url: "https://hooks.slack.com/services/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",
-            message: "HoverView framework release version : #{version}, has been successfully deployed!",
+            message: "HoverView framework release version : #{xcodeprojver}, has been successfully deployed!",
             channel: "#iosfastlane",
             success: true,        # Optional, defaults to true.
             payload: {
@@ -36,10 +46,10 @@ lane :hoverview_test do
         code_coverage: true,
         open_report: true
     )
+    pod_lib_lint
 end
 
 lane :hoverview_deploy do
-    pod_lib_lint
     pod_push
     print "[!!] deployed\n"
 end
