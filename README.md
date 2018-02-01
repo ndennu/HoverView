@@ -90,8 +90,8 @@ func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpI
 - v1.0.5
 
 ```
+- Added new tap event for BubbleView in delegate
 - Fixed README.md
-- Added new tap event for BubbleView
 ```
 
 - v1.0.3
