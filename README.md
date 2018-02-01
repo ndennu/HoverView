@@ -91,6 +91,7 @@ func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpI
 
 ```
 - Fixed README.md
+- Added new tap event for BubbleView
 ```
 
 - v1.0.3
