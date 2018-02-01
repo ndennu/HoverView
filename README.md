@@ -1,7 +1,7 @@
 # HoverView Framework
 New revolutionnary bubble component
 
-[![CocoaPods](https://img.shields.io/cocoapods/p/HoverView.svg)](https://github.com/ndennu/HoverView) [![Build Status](https://travis-ci.org/ndennu/HoverView.svg?branch=master)](https://travis-ci.org/ndennu/HoverView) [![pod version](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/ndennu/hoverview/tree/master)](http://clayallsopp.github.io/readme-score?url=https://github.com/ndennu/hoverview/tree/master) [![CocoaPods](https://img.shields.io/cocoapods/dt/HoverView.svg)](https://github.com/ndennu/HoverView)
+[![CocoaPods](https://img.shields.io/cocoapods/p/HoverView.svg)](https://github.com/ndennu/HoverView) [![Build Status](https://travis-ci.org/ndennu/HoverView.svg?branch=master)](https://travis-ci.org/ndennu/HoverView) [![pod version](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/ndennu/hoverview/tree/master)](http://clayallsopp.github.io/readme-score?url=https://github.com/ndennu/hoverview/tree/master) 
 
 ## Prerequisites
 
@@ -70,6 +70,20 @@ addBubble | none | void |
 Method name | Parameters | Return type |
 --- | --- | --- |
 hoverViewController | HoverViewController | void
+hoverViewController / didTouchUpInsideHoverView | HoverViewController and UIView | void
+
+#### Delegate implementation
+
+```swift
+func hoverViewController(_ hoverViewController: HoverViewController) {
+    // ... some code
+}
+
+func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView) {
+    // ... some code
+}
+
+```
 
 ## Version History
 

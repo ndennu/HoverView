@@ -10,6 +10,7 @@ import UIKit
 
 public protocol HoverViewControllerDelegate: class {
     func hoverViewController(_ hoverViewController: HoverViewController)
+    func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView)
 }
 
 public class HoverViewController: UIViewController {
@@ -96,8 +97,16 @@ public class HoverViewController: UIViewController {
         self.hvBubbleView.layer.frame.size.height = size
         self.hvBubbleView.layer.cornerRadius = hvBubbleView.frame.size.width / 2
         
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.hvBubbleViewDidTapped(sender:)))
+        self.hvBubbleView.addGestureRecognizer(gesture)
+        
         self.setImageInbubble(img: imgBubbleName, size: size)
         self.setImageInTrash(img: imgTrashName)
+    }
+    
+    // EVENT -> TRIGGERED WHEN THE USER TAP ON HOVERVIEW BUBBLE
+    @objc private func hvBubbleViewDidTapped(sender:UITapGestureRecognizer){
+        self.delegate?.hoverViewController(self, didTouchUpInsideHoverView: self.hvBubbleView)
     }
     
     // SET IMAGE IN THE BUBBLE VIEW
