@@ -22,11 +22,13 @@ lane :hoverview_main do
         )
         hoverview_deploy
         git_commit(
-            path: ["HoverView.xcodeproj/project.pbxproj",
-                    "HoverView/Info.plist",
-                    "HoverViewTests/Info.plist",
-                    "HoverViewFramework.podspec"], 
-            message: "Changed framework number to " + xcodeprojver
+            path: [
+                "HoverView.xcodeproj/project.pbxproj",
+                "HoverView/Info.plist",
+                "HoverViewTests/Info.plist",
+                "HoverViewFramework.podspec"
+            ], 
+            message: "Changed framework version number to " + xcodeprojver
         )
         slack(
             slack_url: "https://hooks.slack.com/services/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",
