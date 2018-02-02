@@ -18,7 +18,7 @@ lane :hoverview_release do
         )
         # push_to_git_remote
         slack(
-            slack_url: "https://hooks.slack.com/services/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",
+            slack_url: ENV["SLACK_URL"],
             message: "HoverView framework release version : #{xcodeprojver}, has been successfully deployed!",
             channel: "#iosfastlane",
             success: true,        # Optional, defaults to true.
@@ -36,7 +36,7 @@ lane :hoverview_main do
     if git_branch() == "develop"
         print "DEVELOP BRANCH\n"
         slack(
-            slack_url: "https://hooks.slack.com/services/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",
+            slack_url: ENV["SLACK_URL"],
             message: "HoverView framework has been successfully built on develop branch!",
             channel: "#iosfastlane",  # Optional, by default will post to the default channel configured for the POST URL.
             success: true,        # Optional, defaults to true.
@@ -47,7 +47,7 @@ lane :hoverview_main do
         )
     elsif git_branch() == "master"
         slack(
-            slack_url: "https://hooks.slack.com/services/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",
+            slack_url: ENV["SLACK_URL"],
             message: "HoverView framework has been successfully built on develop branch!",
             channel: "#iosfastlane",
             success: true,        # Optional, defaults to true.
@@ -78,7 +78,7 @@ end
 error do |lane, exception|
     print "ERROR --> "
     slack(
-        slack_url: "https://hooks.slack.com/services/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",
+        slack_url: ENV["SLACK_URL"],
         message: "Lane failed, Details --> " + exception.message,
         channel: "#iosfastlane",  # Optional, by default will post to the default channel configured for the POST URL.
         success: false,        # Optional, defaults to true.
