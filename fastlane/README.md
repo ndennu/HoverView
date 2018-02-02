@@ -15,6 +15,11 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
+### hoverview_release
+```
+fastlane hoverview_release
+```
+
 ### hoverview_main
 ```
 fastlane hoverview_main

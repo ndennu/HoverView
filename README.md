@@ -13,7 +13,7 @@ New revolutionnary bubble component
 
 1. Add this line to your `Podfile`
 ```
-pod 'HoverViewFramework', '~> 1.0'
+pod 'HoverViewFramework', '~> 1.1'
 ```
 2. Run `pod install` to install `HoverViewFramework` to your project
 3. Have fun !

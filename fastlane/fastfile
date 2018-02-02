@@ -1,26 +1,12 @@
-lane :hoverview_main do
-    increment_build_number
-    hoverview_test
-    xcov
-    if git_branch() == "develop"
-        print "DEVELOP BRANCH\n"
-        slack(
-            slack_url: "https://hooks.slack.com/services/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",
-            message: "HoverView framework has been successfully built on develop branch!",
-            channel: "#iosfastlane",  # Optional, by default will post to the default channel configured for the POST URL.
-            success: true,        # Optional, defaults to true.
-            payload: {  # Optional, lets you specify any number of your own Slack attachments.
-                "Build Date" => Time.new.to_s,
-                "Built by" => "Travis",
-            }
-        )
-    elsif git_branch() == "master"
+lane :hoverview_release do
+    hoverview_main
+    if git_branch() == "master"
+        hoverview_deploy
         xcodeprojver = increment_version_number
         version_bump_podspec(
             path: "HoverViewFramework.podspec",
             version_number: xcodeprojver
         )
-        hoverview_deploy
         git_commit(
             path: [
                 "HoverView.xcodeproj/project.pbxproj",
@@ -44,10 +30,42 @@ lane :hoverview_main do
     end
 end
 
+lane :hoverview_main do
+    increment_build_number
+    hoverview_test
+    if git_branch() == "develop"
+        print "DEVELOP BRANCH\n"
+        slack(
+            slack_url: "https://hooks.slack.com/services/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",
+            message: "HoverView framework has been successfully built on develop branch!",
+            channel: "#iosfastlane",  # Optional, by default will post to the default channel configured for the POST URL.
+            success: true,        # Optional, defaults to true.
+            payload: {  # Optional, lets you specify any number of your own Slack attachments.
+                "Build Date" => Time.new.to_s,
+                "Built by" => "Travis",
+            }
+        )
+    elsif git_branch() == "master"
+        slack(
+            slack_url: "https://hooks.slack.com/services/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",
+            message: "HoverView framework has been successfully built on develop branch!",
+            channel: "#iosfastlane",
+            success: true,        # Optional, defaults to true.
+            payload: {
+                "Build Date" => Time.new.to_s,
+                "Built by" => "Travis",
+            }
+        )
+    end
+end
+
 lane :hoverview_test do 
     scan(
         code_coverage: true,
         open_report: true
+    )
+    xcov(
+        coveralls_repo_token: "COVERALLS_REPO_TOKEN"
     )
     pod_lib_lint
 end
