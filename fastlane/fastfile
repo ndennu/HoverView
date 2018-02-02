@@ -65,7 +65,7 @@ lane :hoverview_test do
         open_report: true
     )
     xcov(
-        coveralls_repo_token: "COVERALLS_REPO_TOKEN"
+        coveralls_repo_token: "%COVERALLS_REPO_TOKEN%"
     )
     pod_lib_lint
 end
