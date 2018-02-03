@@ -1,12 +1,82 @@
-lane :hoverview_release do
+lane :hoverview_release_major do
     hoverview_main
     if git_branch() == "master"
-        hoverview_deploy
-        xcodeprojver = increment_version_number
+        xcodeprojver = increment_version_number(
+            bump_type: "major" # Automatically increment minor version number
+        )
         version_bump_podspec(
             path: "HoverViewFramework.podspec",
             version_number: xcodeprojver
         )
+        hoverview_deploy
+        git_commit(
+            path: [
+                "HoverView.xcodeproj/project.pbxproj",
+                "HoverView/Info.plist",
+                "HoverViewTests/Info.plist",
+                "HoverViewFramework.podspec"
+            ], 
+            message: "Changed framework version number to " + xcodeprojver
+        )
+        # push_to_git_remote
+        slack(
+            slack_url: ENV["SLACK_URL"],
+            message: "HoverView framework release version : #{xcodeprojver}, has been successfully deployed!",
+            channel: "#iosfastlane",
+            success: true,        # Optional, defaults to true.
+            payload: {
+                "Build Date" => Time.new.to_s,
+                "Built by" => "Travis",
+            }
+        )
+    end
+end
+
+lane :hoverview_release_minor do
+    hoverview_main
+    if git_branch() == "master"
+        xcodeprojver = increment_version_number(
+            bump_type: "minor" # Automatically increment minor version number
+        )
+        version_bump_podspec(
+            path: "HoverViewFramework.podspec",
+            version_number: xcodeprojver
+        )
+        hoverview_deploy
+        git_commit(
+            path: [
+                "HoverView.xcodeproj/project.pbxproj",
+                "HoverView/Info.plist",
+                "HoverViewTests/Info.plist",
+                "HoverViewFramework.podspec"
+            ], 
+            message: "Changed framework version number to " + xcodeprojver
+        )
+        # push_to_git_remote
+        slack(
+            slack_url: ENV["SLACK_URL"],
+            message: "HoverView framework release version : #{xcodeprojver}, has been successfully deployed!",
+            channel: "#iosfastlane",
+            success: true,        # Optional, defaults to true.
+            payload: {
+                "Build Date" => Time.new.to_s,
+                "Built by" => "Travis",
+            }
+        )
+    end
+end
+
+lane :hoverview_release_patch do
+    hoverview_main
+    if git_branch() == "master"
+        xcodeprojver = increment_version_number(
+            bump_type: "patch" # Automatically increment major version number
+        )
+        version_bump_podspec(
+            path: "HoverViewFramework.podspec",
+            version_number: xcodeprojver
+        )
+        hoverview_deploy
         git_commit(
             path: [
                 "HoverView.xcodeproj/project.pbxproj",
