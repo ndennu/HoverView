@@ -47,9 +47,12 @@ public class HoverViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.view.addSubview(self.hvContentView)
         self.addChildViewController(self.hvRootViewController, in: self.hvContentView)
-        self.setupContentView()
         self.delegate?.hoverViewController(self)
         setPanGesture()
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        self.setupContentView()
     }
     
     /////////////////////////////////////////////////////////////////////////
@@ -67,10 +70,8 @@ public class HoverViewController: UIViewController {
     }
     
     private func setupContentView() {
-        self.hvContentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.hvContentView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        self.hvContentView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1) .isActive = true
-        self.hvContentView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 1).isActive = true
+        self.hvContentView.frame = self.view.bounds
+        self.hvContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     //////////////////////////////////////////////////////////////////////////
     
