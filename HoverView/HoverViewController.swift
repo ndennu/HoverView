@@ -17,6 +17,9 @@ public class HoverViewController: UIViewController {
     
     public weak var delegate: HoverViewControllerDelegate?
     
+    var previousOrientation: UIDeviceOrientation?
+    var previousPos: Double?
+    
     private var hvRootViewController = UIViewController()
     
     private let hvContentView : UIView = {
@@ -53,6 +56,40 @@ public class HoverViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         self.setupContentView()
+    }
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        let kfk = self.hvBubbleView.layer.frame.origin.y
+        if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft{
+            if let prev = self.previousOrientation {
+                if prev != UIDeviceOrientation.landscapeRight {
+                    var tmp = self.hvBubbleView.layer.frame.origin.y
+                    self.hvBubbleView.layer.frame.origin.y = self.hvBubbleView.layer.frame.origin.x
+                    self.hvBubbleView.layer.frame.origin.x = tmp
+                }
+            }
+            
+            
+        } else if UIDevice.current.orientation == UIDeviceOrientation.landscapeRight{
+            if let prev = self.previousOrientation {
+                if prev != UIDeviceOrientation.landscapeLeft {
+                    var tmp = self.hvBubbleView.layer.frame.origin.y
+                    self.hvBubbleView.layer.frame.origin.y = self.hvBubbleView.layer.frame.origin.x
+                    self.hvBubbleView.layer.frame.origin.x = tmp
+                }
+            }
+        } else if UIDevice.current.orientation == UIDeviceOrientation.portrait{
+            var tmp = self.hvBubbleView.layer.frame.origin.y
+            self.hvBubbleView.layer.frame.origin.y = self.hvBubbleView.layer.frame.origin.x
+            self.hvBubbleView.layer.frame.origin.x = tmp
+        } else if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown{
+            var tmp = self.hvBubbleView.layer.frame.origin.y
+            self.hvBubbleView.layer.frame.origin.y = self.hvBubbleView.layer.frame.origin.x
+            self.hvBubbleView.layer.frame.origin.x = tmp
+        }
+        previousOrientation = UIDevice.current.orientation
+        //        self.previousPos = self.hvBubbleView.layer.frame.origin.x
+        self.fixedTheBubble()
     }
     
     /////////////////////////////////////////////////////////////////////////
@@ -180,20 +217,33 @@ public class HoverViewController: UIViewController {
             self.hvBubbleView.layer.frame.origin.x = UIScreen.main.bounds.width - self.hvBubbleView.layer.frame.width - offset
             fixedCorner(offset: offset)
         }
+        
+        ////////:
     }
     
     // AVOID THE BUBBLE VIEW QUIT THE SCREEN
     private func fixedCorner(offset: CGFloat) {
         let originY = self.hvBubbleView.layer.frame.origin.y
+        let originX = self.hvBubbleView.layer.frame.origin.x
         let posBottom = self.hvBubbleView.layer.frame.origin.y + self.hvBubbleView.layer.frame.height
-        let screenSize = UIScreen.main.bounds.height
+        let posRight = self.hvBubbleView.layer.frame.origin.x + self.hvBubbleView.layer.frame.width
+        let screenSizeWidth = UIScreen.main.bounds.width
+        let screenSizeHeight = UIScreen.main.bounds.height
         
         if (originY <= offset) {
             self.hvBubbleView.layer.frame.origin.y = offset
         }
         
-        if (posBottom >= screenSize) {
-            self.hvBubbleView.layer.frame.origin.y = screenSize - self.hvBubbleView.layer.frame.height - offset
+        if (posBottom >= screenSizeHeight) {
+            self.hvBubbleView.layer.frame.origin.y = screenSizeHeight - self.hvBubbleView.layer.frame.height - offset
+        }
+        
+        if (originX <= offset) {
+            self.hvBubbleView.layer.frame.origin.x = offset
+        }
+        
+        if (posRight >= screenSizeWidth) {
+            self.hvBubbleView.layer.frame.origin.x = screenSizeWidth - self.hvBubbleView.layer.frame.width - offset
         }
     }
     
@@ -215,4 +265,3 @@ public class HoverViewController: UIViewController {
         }
     }
 }
-
