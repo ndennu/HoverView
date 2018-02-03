@@ -13,7 +13,7 @@ New revolutionnary bubble component
 
 1. Add this line to your `Podfile`
 ```
-pod 'HoverViewFramework', '~> 1.1'
+pod 'HoverViewFramework', '~> 1.2'
 ```
 2. Run `pod install` to install `HoverViewFramework` to your project
 3. Have fun !
@@ -86,6 +86,13 @@ func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpI
 ```
 
 ## Version History
+
+- v1.2.0
+
+```
+- Fixed landcape mode handling for HoverViewController
+- Added automatic positioning for the BubbleView
+```
 
 - v1.1.5
 
