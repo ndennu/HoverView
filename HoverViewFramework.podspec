@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'HoverViewFramework'
-  s.version = '1.1.6'
+  s.version = '1.2.0'
   s.license = 'MIT'
   s.summary = 'New revolutionnary bubble component'
   s.homepage = 'https://github.com/ndennu/HoverView'
