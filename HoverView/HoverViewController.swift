@@ -9,7 +9,9 @@
 import UIKit
 
 public protocol HoverViewControllerDelegate: class {
+    /// TRIGGERED WHEN THE HOVERVIEWCONTROLLER HAS LOADED (Used to get the hoverview framework instance)
     func hoverViewController(_ hoverViewController: HoverViewController)
+    /// TRIGGERED WHEN THE USER TAP ON THE BUBBLE
     func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView)
 }
 
@@ -44,6 +46,8 @@ public class HoverViewController: UIViewController {
     }()
     
     private var panGesture = UIPanGestureRecognizer()
+    
+    
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +96,27 @@ public class HoverViewController: UIViewController {
         }
     }
     
+    // FUNCTION WHO INITIALIZE THE FRAMEWORK
+    public func setupWithImage(rootViewController: UIViewController, size: CGFloat, imgBubbleName: String, imgTrashName: String) {
+        self.hvRootViewController = rootViewController
+        self.hvBubbleView.layer.frame.size.width = size
+        self.hvBubbleView.layer.frame.size.height = size
+        self.hvBubbleView.layer.cornerRadius = hvBubbleView.frame.size.width / 2
+        
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.hvBubbleViewDidTapped(sender:)))
+        self.hvBubbleView.addGestureRecognizer(gesture)
+        
+        self.setImageInbubble(img: imgBubbleName, size: size)
+        self.setImageInTrash(img: imgTrashName)
+    }
+    
+    // ADD ONE BUBBLE, ONLY ONE
+    public func addBubble() {
+        view.addSubview(self.hvBubbleView)
+        self.setupBubble()
+    }
+    
+    
     /////////////////////////////////////////////////////////////////////////
     //                                                                     //
     //                                                                     //
@@ -110,7 +135,15 @@ public class HoverViewController: UIViewController {
         self.hvContentView.frame = self.view.bounds
         self.hvContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
-    //////////////////////////////////////////////////////////////////////////
+    
+    
+    /////////////////////////////////////////////////////////////////////////
+    //                                                                     //
+    //                                                                     //
+    // SETUP PAN GESTURE AND FIRST APPARITION BUBBLEVIEW                   //
+    //                                                                     //
+    //                                                                     //
+    /////////////////////////////////////////////////////////////////////////
     
     
     // SET LINK USER GESTURE TO BUBBLE
@@ -126,25 +159,6 @@ public class HoverViewController: UIViewController {
         self.hvBubbleView.layer.frame.origin.x = UIScreen.main.bounds.width / 2 + 1
         self.hvBubbleView.layer.frame.origin.y = 150
         self.fixedTheBubble()
-    }
-    
-    // FUNCTION WHO INITIALIZE THE FRAMEWORK
-    public func setupWithImage(rootViewController: UIViewController, size: CGFloat, imgBubbleName: String, imgTrashName: String) {
-        self.hvRootViewController = rootViewController
-        self.hvBubbleView.layer.frame.size.width = size
-        self.hvBubbleView.layer.frame.size.height = size
-        self.hvBubbleView.layer.cornerRadius = hvBubbleView.frame.size.width / 2
-        
-        let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.hvBubbleViewDidTapped(sender:)))
-        self.hvBubbleView.addGestureRecognizer(gesture)
-        
-        self.setImageInbubble(img: imgBubbleName, size: size)
-        self.setImageInTrash(img: imgTrashName)
-    }
-    
-    // EVENT -> TRIGGERED WHEN THE USER TAP ON HOVERVIEW BUBBLE
-    @objc private func hvBubbleViewDidTapped(sender:UITapGestureRecognizer){
-        self.delegate?.hoverViewController(self, didTouchUpInsideHoverView: self.hvBubbleView)
     }
     
     // SET IMAGE IN THE BUBBLE VIEW
@@ -163,16 +177,58 @@ public class HoverViewController: UIViewController {
         self.hvTrashView.addSubview(imageViewTrash)
     }
     
+    /////////////////////////////////////////////////////////////////////////
+    //                                                                     //
+    //                                                                     //
+    // EVENT DRAG N DROP AND TOUCH INSIDE                                  //
+    //                                                                     //
+    //                                                                     //
+    /////////////////////////////////////////////////////////////////////////
+    
+    // EVENT -> TRIGGERED WHEN THE USER TAP ON HOVERVIEW BUBBLE
+    @objc private func hvBubbleViewDidTapped(sender:UITapGestureRecognizer){
+        self.delegate?.hoverViewController(self, didTouchUpInsideHoverView: self.hvBubbleView)
+    }
+    
+    // MANAGE THE BUBBLEVIEW'S MOVEMENT
+    @objc private func draggedView(_ sender:UIPanGestureRecognizer) {
+        
+        // user touch at the beginning the bubble
+        if (sender.state == UIGestureRecognizerState.began) {
+            beginDragNDrop()
+        }
+        
+        moveBubbleView(sender: sender)
+        
+        // User unTouch the bubble
+        if(sender.state == UIGestureRecognizerState.ended) {
+            if !(removeViews()) {
+                fixedTheBubble()
+            }
+        }
+    }
+    
+    /////////////////////////////////////////////////////////////////////////
+    //                                                                     //
+    //                                                                     //
+    // FUNCTION RELATIVE TO DRAG N DROP                                    //
+    //                                                                     //
+    //                                                                     //
+    /////////////////////////////////////////////////////////////////////////
+    
     // ADD THE TRASHVIEW AT THE BOTTOM OF THE SCREEN
     private func beginDragNDrop() {
         view.addSubview(self.hvTrashView)
         self.setupTrash()
     }
     
-    // ADD ONE BUBBLE, ONLY ONE
-    public func addBubble() {
-        view.addSubview(self.hvBubbleView)
-        self.setupBubble()
+    // MAKE A MOVEMENT WITH THE BUBBLE VIEW (WITH THE USER'S FINGUER)
+    private func moveBubbleView(sender: UIPanGestureRecognizer) {
+        // User move the bubble
+        self.view.bringSubview(toFront: self.hvBubbleView)
+        let translation = sender.translation(in: self.view)
+        self.hvBubbleView.center = CGPoint(x: self.hvBubbleView.center.x + translation.x, y: self.hvBubbleView.center.y + translation.y)
+        sender.setTranslation(CGPoint.zero, in: self.view)
     }
     
     // REMOVE THE TRASHVIEW TO THE SCREEN
@@ -198,14 +254,7 @@ public class HoverViewController: UIViewController {
         return false
     }
     
-    // MAKE A MOVEMENT WITH THE BUBBLE VIEW (WITH THE USER'S FINGUER)
-    private func moveBubbleView(sender: UIPanGestureRecognizer) {
-        // User move the bubble
-        self.view.bringSubview(toFront: self.hvBubbleView) // BRINGSUBVIEW ????
-        let translation = sender.translation(in: self.view)
-        self.hvBubbleView.center = CGPoint(x: self.hvBubbleView.center.x + translation.x, y: self.hvBubbleView.center.y + translation.y)
-        sender.setTranslation(CGPoint.zero, in: self.view)
-    }
+    
     
     // FIXED THE BUBBLEVIEW AT THE LEFT OR THE RIGHT OF THE SCREEN
     private func fixedTheBubble() {
@@ -216,8 +265,6 @@ public class HoverViewController: UIViewController {
             self.hvBubbleView.layer.frame.origin.x = UIScreen.main.bounds.width - self.hvBubbleView.layer.frame.width - self.offset
             fixedCorner(offset: self.offset)
         }
-        
-        ////////:
     }
     
     // AVOID THE BUBBLE VIEW QUIT THE SCREEN
@@ -246,21 +293,5 @@ public class HoverViewController: UIViewController {
         }
     }
     
-    // MANAGE THE BUBBLEVIEW'S MOVEMENT
-    @objc func draggedView(_ sender:UIPanGestureRecognizer) {
-        
-        // user touch at the beginning the bubble
-        if (sender.state == UIGestureRecognizerState.began) {
-            beginDragNDrop()
-        }
-        
-        moveBubbleView(sender: sender)
-        
-        // User unTouch the bubble
-        if(sender.state == UIGestureRecognizerState.ended) {
-            if !(removeViews()) {
-                fixedTheBubble()
-            }
-        }
-    }
+    
 }

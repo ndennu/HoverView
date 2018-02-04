@@ -1,13 +1,17 @@
 # HoverView Framework
-New revolutionnary bubble component
-
 [![CocoaPods](https://img.shields.io/cocoapods/p/HoverView.svg)](https://github.com/ndennu/HoverView) [![Build Status](https://travis-ci.org/ndennu/HoverView.svg?branch=master)](https://travis-ci.org/ndennu/HoverView) [![pod version](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/ndennu/hoverview/tree/master)](http://clayallsopp.github.io/readme-score?url=https://github.com/ndennu/hoverview/tree/master) [![Coverage Status](https://coveralls.io/repos/github/ndennu/HoverView/badge.svg?branch=master)](https://coveralls.io/github/ndennu/HoverView?branch=master)
+
+New revolutionnary bubble component
 
 ## Prerequisites
 
 - XCode 9 and Swift 4
 - CocoaPod
 - iOS 11 project
+
+## HoverViewFramework preview
+
+![alt-text](https://raw.githubusercontent.com/jeyak/HoverViewExemple/master/readme_assets/exemple.gif)
 
 ## Installation
 
@@ -19,6 +23,8 @@ pod 'HoverViewFramework', '~> 1.2'
 3. Have fun !
 
 ## Usage
+
+You can found an exemple [here](https://github.com/jeyak/HoverViewExemple) on github
 
 First, you must import the framework with this line :
 ```swift
@@ -75,12 +81,15 @@ hoverViewController / didTouchUpInsideHoverView | HoverViewController and UIView
 #### Delegate implementation
 
 ```swift
-func hoverViewController(_ hoverViewController: HoverViewController) {
-    // ... some code
-}
-
-func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView) {
-    // ... some code
+extension ViewController: HoverViewControllerDelegate {
+    /// TRIGGERED WHEN THE HOVERVIEWCONTROLLER HAS LOADED (Used to get the hoverview framework instance)
+    func hoverViewController(_ hoverViewController: HoverViewController) {
+        // ... some code
+    }
+    /// TRIGGERED WHEN THE USER TAP ON THE BUBBLE
+    func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView) {
+        // ... some code
+    }
 }
 
 ```
