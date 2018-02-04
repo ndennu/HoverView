@@ -9,6 +9,10 @@ New revolutionnary bubble component
 - CocoaPod
 - iOS 11 project
 
+## HoverViewFramework preview
+
+<span style="display:block;text-align:center">![alt-text](https://raw.githubusercontent.com/jeyak/HoverViewExemple/master/readme_assets/exemple.gif)</span>
+
 ## Installation
 
 1. Add this line to your `Podfile`
@@ -56,6 +60,8 @@ extension ViewController: HoverViewControllerDelegate {
     }
 }
 ```
+
+You can found an exemple [here](https://github.com/jeyak/HoverViewExemple) on github
 
 ## HoverViewController's available methods
 
