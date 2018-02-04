@@ -1,7 +1,7 @@
 # HoverView Framework
-New revolutionnary bubble component
-
 [![CocoaPods](https://img.shields.io/cocoapods/p/HoverView.svg)](https://github.com/ndennu/HoverView) [![Build Status](https://travis-ci.org/ndennu/HoverView.svg?branch=master)](https://travis-ci.org/ndennu/HoverView) [![pod version](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)](https://cocoapod-badges.herokuapp.com/v/HoverViewFramework/badge.png)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/ndennu/hoverview/tree/master)](http://clayallsopp.github.io/readme-score?url=https://github.com/ndennu/hoverview/tree/master) [![Coverage Status](https://coveralls.io/repos/github/ndennu/HoverView/badge.svg?branch=master)](https://coveralls.io/github/ndennu/HoverView?branch=master)
+
+New revolutionnary bubble component
 
 ## Prerequisites
 
