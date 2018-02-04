@@ -11,7 +11,7 @@ New revolutionnary bubble component
 
 ## HoverViewFramework preview
 
-<span style="display:block;text-align:center">![alt-text](https://raw.githubusercontent.com/jeyak/HoverViewExemple/master/readme_assets/exemple.gif)</span>
+![alt-text](https://raw.githubusercontent.com/jeyak/HoverViewExemple/master/readme_assets/exemple.gif)
 
 ## Installation
 
@@ -23,6 +23,8 @@ pod 'HoverViewFramework', '~> 1.2'
 3. Have fun !
 
 ## Usage
+
+You can found an exemple [here](https://github.com/jeyak/HoverViewExemple) on github
 
 First, you must import the framework with this line :
 ```swift
@@ -60,8 +62,6 @@ extension ViewController: HoverViewControllerDelegate {
     }
 }
 ```
-
-You can found an exemple [here](https://github.com/jeyak/HoverViewExemple) on github
 
 ## HoverViewController's available methods
 
