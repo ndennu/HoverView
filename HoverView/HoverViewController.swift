@@ -9,7 +9,9 @@
 import UIKit
 
 public protocol HoverViewControllerDelegate: class {
+    /// TRIGGERED WHEN THE HOVERVIEWCONTROLLER HAS LOADED (Used to get the hoverview framework instance)
     func hoverViewController(_ hoverViewController: HoverViewController)
+    /// TRIGGERED WHEN THE USER TAP ON THE BUBBLE
     func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView)
 }
 

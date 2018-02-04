@@ -81,12 +81,15 @@ hoverViewController / didTouchUpInsideHoverView | HoverViewController and UIView
 #### Delegate implementation
 
 ```swift
-func hoverViewController(_ hoverViewController: HoverViewController) {
-    // ... some code
-}
-
-func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView) {
-    // ... some code
+extension ViewController: HoverViewControllerDelegate {
+    /// TRIGGERED WHEN THE HOVERVIEWCONTROLLER HAS LOADED (Used to get the hoverview framework instance)
+    func hoverViewController(_ hoverViewController: HoverViewController) {
+        // ... some code
+    }
+    /// TRIGGERED WHEN THE USER TAP ON THE BUBBLE
+    func hoverViewController(_ hoverViewController: HoverViewController, didTouchUpInsideHoverView view: UIView) {
+        // ... some code
+    }
 }
 
 ```
